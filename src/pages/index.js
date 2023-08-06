@@ -1,10 +1,56 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { Button } from 'antd'
+import Image from "next/image";
+import { Inter, Roboto, Open_Sans } from "next/font/google";
+import { Button } from "antd";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
+const roboto = Open_Sans({
+  weight: ["400", "500", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+});
+let listAll = [
+["CAMP KABILA",3],
+["CAMP OSS",3],
+["COMMERCIAL",3],
+["ECHANGEUR",2],
+["ECOLE",3],
+["FOIRE",3],
+["GOMBELE",2],
+["KIMI RIGHINI",1],
+["KIMPWANZA",3],
+["LIVULU",3],
+["MADRANDELE",3],
+["MASANO",3],
+["MBANZA LEMBA KINSHASA"   ,3],
+["MOLO",3],
+["SALONGO",2],
 
+
+
+
+
+
+];
 export default function Home() {
+  const activateLasers = async() => {
+    for(let i=0;i<listAll.length; i++){
+      let data = {};
+      data.name=listAll[i][0]
+      data.rank=listAll[i][1]
+      data.cummune = "64a1cdefc57458670adf1bdd"
+      console.log(JSON.stringify(data))
+      const response = await fetch("http://164.90.176.65:4000/quartiers/", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+      console.log(response.json())
+    }
+    
+  };
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -21,7 +67,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By{' '}
+            By{" "}
             <Image
               src="/vercel.svg"
               alt="Vercel Logo"
@@ -53,7 +99,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
+            Docs{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
@@ -70,7 +116,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
+            Learn{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
@@ -87,7 +133,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
+            Templates{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
@@ -104,7 +150,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
+            Deploy{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
@@ -114,7 +160,12 @@ export default function Home() {
           </p>
         </a>
       </div>
-      <Button className={`bg-indigo-500`} >This is the primary Button</Button>
+      <Button
+        className={`bg-red-500 ${roboto.className}`}
+        onClick={activateLasers}
+      >
+        This is the primary Button
+      </Button>
     </main>
-  )
+  );
 }
