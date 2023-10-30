@@ -5,6 +5,7 @@ const DatePicker = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [calendar, setCalendar] = useState([]);
   const [visble, setVisible] = useState(false);
+  const [firstDate, setFirstDate] = useState(null);
 
   const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   const monthOfYear = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -24,18 +25,13 @@ const DatePicker = () => {
       currentDate.getMonth(),
       1
     );
-    console.log("firstDayOfMonth", firstDayOfMonth);
     const lastDayOfMonth = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth() + 1,
       0
     );
-    console.log("lastDayOfMonth", lastDayOfMonth);
     const startOffset = firstDayOfMonth.getDay();
     const endOffset = 6 - lastDayOfMonth.getDay();
-
-    console.log("startOffset", startOffset);
-    console.log("endOffset", endOffset);
 
     const days = [];
     for (
@@ -48,14 +44,14 @@ const DatePicker = () => {
         currentDate.getMonth(),
         i
       );
+      console.log(day);
       days.push({
         date: day,
         isCurrentMonth: day.getMonth() === currentDate.getMonth(),
-        isSelected:
-          selectedDate && day.toDateString() === selectedDate.toDateString(),
+        // isSelected:
+        //   selectedDate && day.toDateString() === selectedDate.toDateString(),
       });
     }
-    console.log("day", days);
 
     setCalendar((prev) => {
       prev = [];
@@ -65,7 +61,6 @@ const DatePicker = () => {
 
   // Initial calendar generation
   useEffect(() => {
-    console.log("i am here");
     generateCalendar();
   }, [selectedDate]);
   //generateCalendar();
@@ -74,13 +69,12 @@ const DatePicker = () => {
   }
 
   const handleDateClick = (date) => {
-    setSelectedDate(date);
+    setFirstDate(date);
   };
 
   const handleMonthChange = (increment) => {
     const newDate = selectedDate ? new Date(selectedDate) : new Date();
     newDate.setMonth(newDate.getMonth() + increment);
-    console.log("new date", newDate);
     setSelectedDate(newDate);
   };
 
@@ -92,7 +86,6 @@ const DatePicker = () => {
           className="year-selector"
           onClick={() => {
             setVisible(true);
-            console.log(visble);
           }}
         >{`${selectedDate?.toLocaleString("default", {
           month: "long",
@@ -122,7 +115,7 @@ const DatePicker = () => {
         key={index}
         className={`day ${
           day.isCurrentMonth ? "current-month" : "other-month"
-        } ${day.isSelected ? "selected" : ""}`}
+        } ${day.date.toString() === firstDate.toString() ? "selected" : ""}`}
         onClick={() => handleDateClick(day.date)}
       >
         {day.date.getDate()}
