@@ -140,6 +140,10 @@ h6 {
   color: #fff;
 }
 
+.current-date {
+  border: 1px solid #248eff;
+}
+
 .year-selector {
   cursor: pointer;
   padding: 3px;
@@ -173,4 +177,10 @@ h6 {
 
 .visibility {
   visibility: visible;
+}
+.date-range {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
 }

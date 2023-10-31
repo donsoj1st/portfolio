@@ -18,6 +18,18 @@ const DatePicker = () => {
     return years;
   };
 
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+
+    const day = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    return day;
+  };
+
   const generateCalendar = () => {
     const currentDate = selectedDate ? new Date(selectedDate) : new Date(); // select day of the month
     const firstDayOfMonth = new Date(
@@ -115,7 +127,11 @@ const DatePicker = () => {
         key={index}
         className={`day ${
           day.isCurrentMonth ? "current-month" : "other-month"
-        } ${day.date.toString() === firstDate.toString() ? "selected" : ""}`}
+        } ${day.date.toString() === firstDate?.toString() ? "selected" : ""} ${
+          day.date.toString() === getCurrentDate().toString()
+            ? "current-date"
+            : ""
+        }`}
         onClick={() => handleDateClick(day.date)}
       >
         {day.date.getDate()}

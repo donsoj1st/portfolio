@@ -4,6 +4,7 @@ import { Button } from "antd";
 import Header from "@/components/Navigation";
 import Card from "@/components/card";
 import DatePicker from "@/components/DatePicker/DatePicker";
+import DateRangePicker from "@/components/DateRangePicker";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Open_Sans({
@@ -52,6 +53,8 @@ export default function Home() {
       {/* <Header />
       <Card /> */}
       <DatePicker />
+
+      <DateRangePicker />
       {/* <main
         className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
       >
