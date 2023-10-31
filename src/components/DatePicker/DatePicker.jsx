@@ -145,7 +145,7 @@ const DatePicker = ({
         } ${
           day.date.toString() === firstDate?.toString() ||
           day.date.toString() === secondInterval?.toString() ||
-          day.date.toString() === firstInterval?.toString()
+          day.date.toString() === firstInterval?.toString() //up
             ? "selected"
             : ""
         } ${
