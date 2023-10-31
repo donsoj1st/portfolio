@@ -52,7 +52,7 @@ export default function Home() {
     <>
       {/* <Header />
       <Card /> */}
-      <DatePicker />
+      {/* <DatePicker /> */}
 
       <DateRangePicker />
       {/* <main

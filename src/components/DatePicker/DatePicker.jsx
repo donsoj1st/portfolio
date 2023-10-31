@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 //import "./DatePicker.css";
 
-const DatePicker = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
+const DatePicker = ({
+  defaultSelectedDate,
+  onGetdateClicked,
+  dayClicked,
+  secondInterval,
+  firstInterval,
+}) => {
+  const [selectedDate, setSelectedDate] = useState(defaultSelectedDate);
   const [calendar, setCalendar] = useState([]);
   const [visble, setVisible] = useState(false);
-  const [firstDate, setFirstDate] = useState(null);
+  const [firstDate, setFirstDate] = useState(dayClicked);
 
   const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   const monthOfYear = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -56,7 +62,6 @@ const DatePicker = () => {
         currentDate.getMonth(),
         i
       );
-      console.log(day);
       days.push({
         date: day,
         isCurrentMonth: day.getMonth() === currentDate.getMonth(),
@@ -75,12 +80,22 @@ const DatePicker = () => {
   useEffect(() => {
     generateCalendar();
   }, [selectedDate]);
+
+  useEffect(() => {
+    console.log("day clicked", dayClicked);
+    console.log("second", secondInterval);
+    setFirstDate(dayClicked);
+  }, [dayClicked, secondInterval]);
   //generateCalendar();
   if (!selectedDate) {
     setSelectedDate(new Date());
   }
 
+  useEffect(() => {}, [firstDate]);
+
   const handleDateClick = (date) => {
+    onGetdateClicked(date);
+
     setFirstDate(date);
   };
 
@@ -127,7 +142,13 @@ const DatePicker = () => {
         key={index}
         className={`day ${
           day.isCurrentMonth ? "current-month" : "other-month"
-        } ${day.date.toString() === firstDate?.toString() ? "selected" : ""} ${
+        } ${
+          day.date.toString() === firstDate?.toString() ||
+          day.date.toString() === secondInterval?.toString() ||
+          day.date.toString() === firstInterval?.toString()
+            ? "selected"
+            : ""
+        } ${
           day.date.toString() === getCurrentDate().toString()
             ? "current-date"
             : ""
