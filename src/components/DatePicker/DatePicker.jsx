@@ -7,11 +7,17 @@ const DatePicker = ({
   dayClicked,
   secondInterval,
   firstInterval,
+  onDateSelected,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(defaultSelectedDate);
+  const [selectedDate, setSelectedDate] = useState(null);
   const [calendar, setCalendar] = useState([]);
   const [visble, setVisible] = useState(false);
   const [firstDate, setFirstDate] = useState(dayClicked);
+
+  useEffect(() => {
+    console.log("selected", defaultSelectedDate);
+    setSelectedDate(defaultSelectedDate);
+  }, []);
 
   const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   const monthOfYear = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -22,6 +28,16 @@ const DatePicker = ({
       years.push({ year: i, monthOfYear });
     }
     return years;
+  };
+
+  const checkInterval = (date, secondInterval, firstInterval) => {
+    const currentDate = new Date(date);
+    const highRange = new Date(secondInterval);
+    const lowRange = new Date(firstInterval);
+    return (
+      highRange.getTime() > currentDate.getTime() &&
+      currentDate.getTime() > lowRange.getTime()
+    );
   };
 
   const getCurrentDate = () => {
@@ -65,8 +81,7 @@ const DatePicker = ({
       days.push({
         date: day,
         isCurrentMonth: day.getMonth() === currentDate.getMonth(),
-        // isSelected:
-        //   selectedDate && day.toDateString() === selectedDate.toDateString(),
+        isDisable: day.getDay() === 0 || day.getDay() === 6 ? false : true,
       });
     }
 
@@ -82,8 +97,6 @@ const DatePicker = ({
   }, [selectedDate]);
 
   useEffect(() => {
-    console.log("day clicked", dayClicked);
-    console.log("second", secondInterval);
     setFirstDate(dayClicked);
   }, [dayClicked, secondInterval]);
   //generateCalendar();
@@ -103,6 +116,7 @@ const DatePicker = ({
     const newDate = selectedDate ? new Date(selectedDate) : new Date();
     newDate.setMonth(newDate.getMonth() + increment);
     setSelectedDate(newDate);
+    onDateSelected(newDate);
   };
 
   const renderHeader = () => {
@@ -133,6 +147,7 @@ const DatePicker = ({
   const handleMonthClick = (year, month) => {
     const date = new Date(year, month);
     setSelectedDate(date);
+    onDateSelected(date);
     setVisible(false);
   };
 
@@ -152,8 +167,14 @@ const DatePicker = ({
           day.date.toString() === getCurrentDate().toString()
             ? "current-date"
             : ""
+        } ${day.isDisable ? "" : "Disable"}
+        ${
+          checkInterval(day.date, secondInterval, firstDate) &&
+          day.isCurrentMonth
+            ? "highlighted-date"
+            : ""
         }`}
-        onClick={() => handleDateClick(day.date)}
+        onClick={day.isDisable ? () => handleDateClick(day.date) : null}
       >
         {day.date.getDate()}
       </div>
