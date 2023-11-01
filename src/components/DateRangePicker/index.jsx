@@ -16,9 +16,39 @@ const DateRangePicker = () => {
   const [secondInterval, setSecondInterval] = useState(null);
   const [firstCalender, setFirstCalender] = useState(getfirstCalender(0));
   const [secondCalender, setSecondCalender] = useState(getfirstCalender(1));
+  const getTodayInterval = () => {
+    setFirstInterval(getfirstCalender(0));
+    setSecondInterval(getfirstCalender(0));
+  };
 
-  let changeDate;
+  const getYesterdayInterval = () => {
+    const currentDate = new Date();
 
+    const day = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() - 1
+    );
+    console.log("date", currentDate);
+    setFirstInterval(day);
+    setSecondInterval(day);
+  };
+  const get30DayInterval = () => {
+    const currentDate = new Date();
+    const day = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() - 30
+    );
+    const end = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+    console.log("date", end, "first", day);
+    setFirstInterval(day);
+    setSecondInterval(end);
+  };
   const firstDateSelected = (value) => {
     console.log("first", value);
     const currentDate = new Date(value.getFullYear(), value.getMonth());
@@ -45,11 +75,11 @@ const DateRangePicker = () => {
 
   const getDayclick = (value) => {
     if (!firstInterval && !secondInterval) {
-      setFirstInterval(value);
+      value;
     } else if (firstInterval && !secondInterval) {
       if (firstInterval > value) {
         const holder = firstInterval;
-        setFirstInterval(value);
+        value;
         setSecondInterval(holder);
       } else {
         setSecondInterval(value);
@@ -63,12 +93,19 @@ const DateRangePicker = () => {
   return (
     <>
       <input
+        name="rangePicker"
         style={{
           width: "650px",
           paddingLeft: "8px",
           paddingTop: "6px",
           paddingBottom: "6px",
           border: "2px solid #2684ff",
+        }}
+        onFocus={() => {
+          console.log("soji");
+        }}
+        onBlur={() => {
+          console.log("blure");
         }}
       />
       <div className="date-range">
@@ -86,6 +123,20 @@ const DateRangePicker = () => {
           secondInterval={secondInterval}
           onDateSelected={secondDateSelected}
         />
+      </div>
+      <div className="footer">
+        <button className="button" onClick={getTodayInterval}>
+          today
+        </button>
+        <button className="button" onClick={getYesterdayInterval}>
+          Yesterday
+        </button>
+        <button className="button" onClick={get30DayInterval}>
+          last 30 days
+        </button>
+        {firstDateSelected && secondInterval && (
+          <button className="button">OK</button>
+        )}
       </div>
     </>
   );
