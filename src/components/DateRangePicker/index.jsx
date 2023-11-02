@@ -101,6 +101,12 @@ const DateRangePicker = () => {
           paddingBottom: "6px",
           border: "2px solid #2684ff",
         }}
+        onFocus={() => {
+          console.log("soji");
+        }}
+        onBlur={() => {
+          console.log("blure");
+        }}
       />
       <div className="date-range">
         <DatePicker
