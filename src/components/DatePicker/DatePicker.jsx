@@ -7,7 +7,6 @@ const DatePicker = ({
   dayClicked,
   secondInterval,
   firstInterval,
-  onDateSelected,
 }) => {
   const [selectedDate, setSelectedDate] = useState(defaultSelectedDate);
   const [calendar, setCalendar] = useState([]);
@@ -106,7 +105,6 @@ const DatePicker = ({
     const newDate = selectedDate ? new Date(selectedDate) : new Date();
     newDate.setMonth(newDate.getMonth() + increment);
     setSelectedDate(newDate);
-    onDateSelected(newDate);
   };
 
   const renderHeader = () => {
@@ -137,7 +135,6 @@ const DatePicker = ({
   const handleMonthClick = (year, month) => {
     const date = new Date(year, month);
     setSelectedDate(date);
-    onDateSelected(date);
     setVisible(false);
   };
 
