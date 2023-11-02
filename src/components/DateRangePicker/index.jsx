@@ -17,8 +17,6 @@ const DateRangePicker = () => {
   const [firstCalender, setFirstCalender] = useState(getfirstCalender(0));
   const [secondCalender, setSecondCalender] = useState(getfirstCalender(1));
 
-  let changeDate;
-
   const firstDateSelected = (value) => {
     console.log("first", value);
     const currentDate = new Date(value.getFullYear(), value.getMonth());

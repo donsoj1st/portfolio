@@ -9,15 +9,10 @@ const DatePicker = ({
   firstInterval,
   onDateSelected,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(defaultSelectedDate);
   const [calendar, setCalendar] = useState([]);
   const [visble, setVisible] = useState(false);
   const [firstDate, setFirstDate] = useState(dayClicked);
-
-  useEffect(() => {
-    console.log("selected", defaultSelectedDate);
-    setSelectedDate(defaultSelectedDate);
-  }, []);
 
   const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   const monthOfYear = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -100,11 +95,6 @@ const DatePicker = ({
     setFirstDate(dayClicked);
   }, [dayClicked, secondInterval]);
   //generateCalendar();
-  if (!selectedDate) {
-    setSelectedDate(new Date());
-  }
-
-  useEffect(() => {}, [firstDate]);
 
   const handleDateClick = (date) => {
     onGetdateClicked(date);
