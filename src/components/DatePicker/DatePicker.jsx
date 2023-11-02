@@ -4,14 +4,14 @@ import React, { useState, useEffect } from "react";
 const DatePicker = ({
   defaultSelectedDate,
   onGetdateClicked,
-  dayClicked,
-  secondInterval,
   firstInterval,
+  secondInterval,
+  testing,
 }) => {
   const [selectedDate, setSelectedDate] = useState(defaultSelectedDate);
   const [calendar, setCalendar] = useState([]);
   const [visble, setVisible] = useState(false);
-  const [firstDate, setFirstDate] = useState(dayClicked);
+  const [firstDate, setFirstDate] = useState(firstInterval);
 
   const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   const monthOfYear = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -91,8 +91,8 @@ const DatePicker = ({
   }, [selectedDate]);
 
   useEffect(() => {
-    setFirstDate(dayClicked);
-  }, [dayClicked, secondInterval]);
+    setFirstDate(firstInterval);
+  }, [firstInterval, secondInterval]);
   //generateCalendar();
 
   const handleDateClick = (date) => {
@@ -105,6 +105,7 @@ const DatePicker = ({
     const newDate = selectedDate ? new Date(selectedDate) : new Date();
     newDate.setMonth(newDate.getMonth() + increment);
     setSelectedDate(newDate);
+    testing(newDate);
   };
 
   const renderHeader = () => {
@@ -146,9 +147,9 @@ const DatePicker = ({
           day.isCurrentMonth ? "current-month" : "other-month"
         } ${
           day.date.toString() === firstDate?.toString() ||
-          day.date.toString() === secondInterval?.toString() ||
-          day.date.toString() === firstInterval?.toString() //up
-            ? "selected"
+          day.date.toString() === secondInterval?.toString()
+            ? //day.date.toString() === firstInterval?.toString() //up
+              "selected"
             : ""
         } ${
           day.date.toString() === getCurrentDate().toString()

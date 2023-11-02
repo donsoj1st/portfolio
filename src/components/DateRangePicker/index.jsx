@@ -112,16 +112,18 @@ const DateRangePicker = () => {
         <DatePicker
           defaultSelectedDate={firstCalender}
           onGetdateClicked={getDayclick}
-          dayClicked={firstInterval}
+          firstInterval={firstInterval}
           secondInterval={secondInterval}
           onDateSelected={firstDateSelected}
+          testing={setSecondCalender}
         />
         <DatePicker
           defaultSelectedDate={secondCalender}
           onGetdateClicked={getDayclick}
-          dayClicked={firstInterval}
+          firstInterval={firstInterval}
           secondInterval={secondInterval}
           onDateSelected={secondDateSelected}
+          key={secondCalender}
         />
       </div>
       <div className="footer">
@@ -134,7 +136,7 @@ const DateRangePicker = () => {
         <button className="button" onClick={get30DayInterval}>
           last 30 days
         </button>
-        {firstDateSelected && secondInterval && (
+        {firstInterval && secondInterval && (
           <button className="button">OK</button>
         )}
       </div>
